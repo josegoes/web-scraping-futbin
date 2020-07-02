@@ -5,18 +5,17 @@ Created on Tue Jun 23 21:15:04 2020
 @author: jose.goes
 """
 
-
-
 import requests
 import json
 import pandas as pd
 from bs4 import BeautifulSoup
 import time
+import os
 
 list_name = []
    
 
-for l in range(756)[1:]:
+for l in range(10)[1:]:
     
     url = requests.get('https://www.futbin.com/20/players?page='+str(l))
     print('Página: '+str(l)+' Cod. Status: '+str(url.status_code))
@@ -44,4 +43,6 @@ for l in range(756)[1:]:
         
 dfPlayers = pd.DataFrame(data={'Jogadores':list_name})
 
-dfPlayers.to_excel(r'c:\users\jose.goes\desktop\dfPlayers.xlsx', index=False)
+cur_dir = os.getcwd()
+
+dfPlayers.to_excel(cur_dir+'\Output\dfPlayers.xlsx', index=False)

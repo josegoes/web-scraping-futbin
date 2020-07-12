@@ -15,7 +15,7 @@ import os
 list_name = []
    
 
-for l in range(10)[1:]:
+for l in range(2)[1:]:
     
     url = requests.get('https://www.futbin.com/20/players?page='+str(l))
     print('Página: '+str(l)+' Cod. Status: '+str(url.status_code))
@@ -43,6 +43,16 @@ for l in range(10)[1:]:
         
 dfPlayers = pd.DataFrame(data={'Jogadores':list_name})
 
+dfConsolidado = pd.DataFrame()
+
+for i in range(len(dfPlayers)):
+    result_split = pd.DataFrame(data={'null':[dfPlayers['Jogadores'][i].split('/')[0]],
+                                      'Temporada FIFA':[dfPlayers['Jogadores'][i].split('/')[1]],
+                                      'Tipo':[dfPlayers['Jogadores'][i].split('/')[2]],
+                                      'ID Player':[dfPlayers['Jogadores'][i].split('/')[3]],
+                                      'Nome Jogador':[dfPlayers['Jogadores'][i].split('/')[4]]})
+    dfConsolidado = pd.concat([dfConsolidado, result_split], sort=False)
+
 cur_dir = os.getcwd()
 
-dfPlayers.to_excel(cur_dir+'\Output\dfPlayers.xlsx', index=False)
+dfConsolidado.to_excel(cur_dir+'\Output\dfConsolidado.xlsx', index=False)
